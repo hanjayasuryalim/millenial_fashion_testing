@@ -151,3 +151,43 @@ describe('sign up test',() =>{
         cy.contains('test').should('exist')
     })
 })
+
+describe('Market page test',() => {
+    beforeEach(()=>{
+        cy.visit('http://localhost:5000/market')
+        cy.viewport(1288,760)
+    })
+
+    it('does category works well',() => {
+
+        cy.get('body > div > div > div:nth-child(2) > div > select').select('Men');
+        cy.wait(1000)
+
+        cy.get('body > div > div > div:nth-child(2) > div > select').select('Women');
+        cy.wait(1000)
+    })
+
+    it('checking add to wishlist and cart menu',() =>{
+
+        cy.get('body > div > div > div.columns.is-multiline > div:nth-child(3)').click()
+
+        cy.get('body > div > div > div:nth-child(2) > div > button.button.is-danger.is-fullwidth').click()
+
+        cy.get('body > div > div > div:nth-child(2) > div > button.button.mr-3.is-primary.is-fullwidth').click()
+
+        cy.visit('http://localhost:5000/cart')
+        cy.contains('Blue Mask').should('exist')
+
+        cy.get('body > div > div > div > div > div > div.content > div > div > table > tbody > tr > td:nth-child(8) > button').click()
+        cy.get('body > div.dialog.modal.is-active > div.modal-card.animation-content > footer > button.button.is-danger').click()
+        cy.contains('Blue Mask').should('not.exist')
+
+
+        cy.visit('http://localhost:5000/wishlist')
+        cy.contains('Blue Mask').should('exist')
+
+        cy.get('body > div > div > div.columns.is-multiline > div > div > div > div > div > button').click()
+        cy.get('body > div.dialog.modal.is-active > div.modal-card.animation-content > footer > button.button.is-danger').click()
+        cy.contains('Wishlist is empty').should('exist')
+    })
+})
