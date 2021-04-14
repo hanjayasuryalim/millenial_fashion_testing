@@ -17,9 +17,7 @@ describe('Homepage test',()=>{
         cy.contains('Utilize world class tech in developing fashion, gather data and implement user\'s request to keep improving.').should('exist');
         cy.contains('Brand Identity').should('exist');
         cy.contains('Give courage and confident to every user that trust us, aim to be world number 1 fashion company.').should('exist');
-        cy.contains('@Copyright Sitename. All Rights Reserved.').should('exist')
-        cy.contains('Powered by Create Ecommerce').should('exist')
-
+        cy.contains('@Copyright Millenial Fashion 2021. All Rights Reserved.').should('exist')
     })
 
     it('does our home page contains title and other required icons',() => {
@@ -189,5 +187,31 @@ describe('Market page test',() => {
         cy.get('body > div > div > div.columns.is-multiline > div > div > div > div > div > button').click()
         cy.get('body > div.dialog.modal.is-active > div.modal-card.animation-content > footer > button.button.is-danger').click()
         cy.contains('Wishlist is empty').should('exist')
+    })
+})
+
+describe('Transaction test',() => {
+    beforeEach(() => {
+        cy.viewport(1288,760)
+    })
+
+    it('does quantity works well',() => {
+        cy.visit('http://localhost:5000/market');
+        cy.get('body > div > div > div.columns.is-multiline > div:nth-child(4) > a > div > div').click()
+        cy.get('body > div > div > div:nth-child(2) > div > button.button.mr-3.is-primary.is-fullwidth').click()
+
+        cy.visit('http://localhost:5000/cart')
+        cy.get('body > div > div > div > div > div > div.content > div > div > table > tbody > tr > td:nth-child(5) > div > div > p.control.plus > button').click()
+        cy.get('body > div > div > div > div > div > div:nth-child(7) > div > button').click()
+        cy.get('body > div > div > div.modal.is-active > div.animation-content > form > div > section > div:nth-child(2) > div > span > select').select('Transfer')
+        cy.get('body > div > div > div.modal.is-active > div.animation-content > form > div > footer > button.button.is-primary').click()
+
+        cy.get('body > div > div > div.column.is-four-fifths > div > div > div.content > div > div > table > tbody > tr > td:nth-child(8) > button').click()
+        cy.get('body > div.dialog.modal.is-active > div.modal-card.animation-content > footer > button.button.is-danger').click()
+
+        cy.visit('http://localhost:5000/transactions')
+        cy.get('body > div > div > div > div > div > div.content > div > div > table > tbody > tr > td:nth-child(4) > a > button').click()
+
+        cy.contains('Purple Mask').should('exist');
     })
 })
